@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Sidebar</title>
+	<link href="https://fonts.googleapis.com/css?family=Barlow+Semi+Condensed&display=swap&subset=latin-ext"
+		rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="./css/main.css">
+
+</head>
+
+<body>
+
+	<!-- Miejsce na błędy -->
+	<div class="message" id="message"></div>
+
+	<h3>Dane (template)</h3>
+	<div class="output template">
+		<?!= getContent() ?>
+	</div>
+
+	<h3>Dane (skrypt)</h3>
+	<label for="inputRange">Range</label>
+	<input type="text" id="inputRange">
+
+	<label for="input">Value</label>
+	<input type="text" id="inputVal">
+
+	<button id='btnSave'>Save</button>
+
+	<div class="output script" id="output"></div>
+	<button id="btnGet">Get</button>
+
+	<script src="./js/main.js"></script>
+</body>
+
+</html>
+
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+	<link rel="stylesheet" type="text/css" href="./css/main.css">
+</head>
+
+<body>
+	<h1>Small World</h1>
+	<script src="./js/main.js"></script>
+</body>
+
+</html> -->

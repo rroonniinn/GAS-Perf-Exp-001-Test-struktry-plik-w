@@ -1,0 +1,56 @@
+body {
+	background-color: rgb(212, 212, 208);
+	color: #452D2E;
+	font-family: 'Barlow Semi Condensed', sans-serif;
+	padding-left: 1em;
+	padding-right: 1em;
+}
+
+h1,
+h2,
+h3 {
+	color: #452D2E;
+}
+
+.output {
+	background-color: rgb(172, 172, 172);
+	padding: 2em;
+	border-radius: 5px;
+	box-shadow: 5px 5px 5px -10px rgba(0, 0, 0, 0.75) inset;
+	-webkit-box-shadow: 5px 5px 5px -10px rgba(0, 0, 0, 0.75) inset;
+	-moz-box-shadow: 5px 5px 5px -10px rgba(0, 0, 0, 0.75) inset;
+}
+
+input {
+	display: block;
+	margin-top: 1em;
+	margin-bottom: 1em;
+	padding: 1em;
+	border: rgb(223, 210, 180) solid 1px;
+	border-radius: 5px;
+}
+
+button {
+	transition: all 0.5s;
+	margin-top: 1em;
+	margin-bottom: 1em;
+	background-color: #452D2E;
+	color: #F2E8CF;
+	border: none;
+	display: inline-block;
+	cursor: pointer;
+	padding: 0.5em 1em 0.5em 1em;
+	font-size: 1em;
+	border-radius: 5px;
+	font-family: 'Barlow Semi Condensed', sans-serif;
+}
+
+button:hover {
+	background-color: rgb(37, 63, 92);
+	transform: scale(1.4);
+}
+
+.message {
+	color: darkred;
+	padding: 1em 1em 1em 0em;
+}
