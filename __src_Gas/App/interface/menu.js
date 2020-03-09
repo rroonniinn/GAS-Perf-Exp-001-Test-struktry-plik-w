@@ -4,13 +4,13 @@ const menu = () => {
 	ui.createMenu('ICON')
 		.addSubMenu(
 			ui
-				.createMenu('Z1')
-				.addItem('Z1 - Job by Job', 'menu.runZ1AllJbJ')
-				.addItem('Z1 - Task by Task', 'menu.runZ1AllTbT')
+				.createMenu('**Z1 - Odczyt danych z całej bazy')
+				.addItem('Z1 - Job by Job', 'intoMenu.runZ1AllJbJ')
+				.addItem('Z1 - Task by Task', 'intoMenu.runZ1AllTbT')
 				.addSeparator()
 				.addItem(
 					'Z1 - Regenerate Cashes',
-					'menu.regenerateCachesZ1'
+					'intoMenu.regenerateCachesZ1'
 				)
 		)
 		.addToUi();
