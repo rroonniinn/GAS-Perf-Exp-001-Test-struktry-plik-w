@@ -17,15 +17,15 @@ const EX_HUB_ID = '1WkQ5XL11vLgIVbOkFn2GjOKejlcPXBvn0dhg-2EbZRw'; // zewnętrzny
 const SRC_SHEET = 'Wyciąg'; // arkusz z bazą (z01b1)
 
 const TARGET_SHEET = 'Test Results';
-const pasteResultOpt = {
-	notRemoveFilers: true,
-	restrictCleanup: 'preserve',
-	notRemoveEmptys: true,
-};
-const pasteTimesOpt = {
-	notRemoveFilers: true,
-	restrictCleanup: 'preserve',
-};
+const TIMES_SHEET = 'Times: Z1';
+
+// Wklejka rezultatów testu
+const showResults = range => res =>
+	paste(getSheet(TARGET_SHEET), range, [[res]], {
+		notRemoveFilers: true,
+		restrictCleanup: 'preserve',
+		notRemoveEmptys: true,
+	});
 
 /**
  * Setup eksperymentów:
@@ -53,7 +53,8 @@ const z01a1 = pipe(
 	() => getTableDataNoHeader(SRC_SHEET_HUB),
 	map(([, , , , , sum]) => sum),
 	sums => Math.max(...sums),
-	res => paste(getSheet(TARGET_SHEET), 'B2', [[res]], pasteResultOpt)
+	showResults('B2')
+	// res => paste(getSheet(TARGET_SHEET), 'B2', [[res]], pasteResultOpt)
 );
 
 /** ************************************
@@ -65,7 +66,8 @@ const z01b1 = pipe(
 	() => getTableDataNoHeader(SRC_SHEET, EX_HUB_ID),
 	map(([, , , , , sum]) => sum),
 	sums => Math.max(...sums),
-	res => paste(getSheet(TARGET_SHEET), 'C2', [[res]], pasteResultOpt)
+	showResults('C2')
+	// res => paste(getSheet(TARGET_SHEET), 'C2', [[res]], pasteResultOpt)
 );
 
 /** ************************************
@@ -80,7 +82,8 @@ const z01c1 = pipe(
 	),
 	map(([, , , , , sum]) => sum),
 	sums => Math.max(...sums),
-	res => paste(getSheet(TARGET_SHEET), 'D2', [[res]], pasteResultOpt)
+	showResults('D2')
+	// res => paste(getSheet(TARGET_SHEET), 'D2', [[res]], pasteResultOpt)
 );
 
 /** ************************************
@@ -98,13 +101,14 @@ const regenerateAllCrusher = () =>
 const regenerateAllOrange = () =>
 	accounts.fileId.forEach(id => getThroughOrange(id));
 
-const z01c2 = (method, col) =>
+const z01c2 = (method, range) =>
 	pipe(
 		() => accounts.fileId,
 		reduceInitEl((all, oneFile) => all.concat(method(oneFile)), []),
 		map(([, , , , , sum]) => sum),
 		sums => Math.max(...sums),
-		res => paste(getSheet(TARGET_SHEET), col, [[res]], pasteResultOpt)
+		showResults(range)
+		// res => paste(getSheet(TARGET_SHEET), col, [[res]], pasteResultOpt)
 	);
 // funkcje do testowania
 const z01c2orange = z01c2(getThroughOrange, 'G2');
@@ -126,12 +130,13 @@ const buildCacheHubCrusher = () =>
 const buildCacheHubOrange = () =>
 	getThroughOrange('1WkQ5XL11vLgIVbOkFn2GjOKejlcPXBvn0dhg-2EbZRw');
 
-const z01d1 = (method, col) =>
+const z01d1 = (method, range) =>
 	pipe(
 		() => method('1WkQ5XL11vLgIVbOkFn2GjOKejlcPXBvn0dhg-2EbZRw'),
 		map(([, , , , , sum]) => sum),
 		sums => Math.max(...sums),
-		res => paste(getSheet(TARGET_SHEET), col, [[res]], pasteResultOpt)
+		showResults(range)
+		// res => paste(getSheet(TARGET_SHEET), col, [[res]], pasteResultOpt)
 	);
 // funkcje do testowania
 const z01d1orange = z01d1(getThroughOrange, 'I2');
@@ -151,11 +156,11 @@ const z01d1crusher = z01d1(getThroughCrusher, 'J2');
 
 const loggerRes = [];
 
-const run = descLong => (callback, descShort) => () =>
-	performanceCheckerObj(loggerRes, callback, descShort, descLong, 1);
+const run = (task, jobType) => (callback, identifier) => () =>
+	performanceCheckerObj(loggerRes, callback, identifier, task, jobType);
 
-const runJbJ = run('Zadanie 01 (Job By Job) - Wyszukiwanie transakcji');
-const runTbT = run('Zadanie 01 (Task By Task) - Wyszukiwanie transakcji');
+const runJbJ = run('Zadanie 01', 'Job By Job');
+const runTbT = run('Zadanie 01', 'Task By Task');
 
 // Odpalenie 'times' razy każdego zadania i przejście do następnego
 const runZ1JobByJob = times => () => {
@@ -182,14 +187,17 @@ const runZ1TaskByTask = times => () => {
 };
 
 const printTimes = () =>
-	paste(getSheet('Times: Z1'), 'A', loggerRes, pasteTimesOpt);
+	paste(getSheet(TIMES_SHEET), 'A', loggerRes, {
+		notRemoveFilers: true,
+		restrictCleanup: 'preserve',
+	});
 
 // Funkcje do uruchomienia masowych testów:
 // JobByJob
-const runZ1AllJbJ = pipe(runZ1JobByJob(20), printTimes);
+const runZ1AllJbJ = pipe(runZ1JobByJob(10), printTimes);
 
 // TaskByTask
-const runZ1AllTbT = pipe(runZ1TaskByTask(20), printTimes);
+const runZ1AllTbT = pipe(runZ1TaskByTask(30), printTimes);
 
 // Regenaracja wszystkich cachy
 const regenerateCachesZ1 = pipe(
