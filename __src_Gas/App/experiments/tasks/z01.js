@@ -194,7 +194,7 @@ const printTimes = () =>
 
 // Funkcje do uruchomienia masowych testów:
 // JobByJob
-const runZ1AllJbJ = pipe(runZ1JobByJob(10), printTimes);
+const runZ1AllJbJ = pipe(runZ1JobByJob(30), printTimes);
 
 // TaskByTask
 const runZ1AllTbT = pipe(runZ1TaskByTask(30), printTimes);
